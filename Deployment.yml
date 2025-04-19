@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep1
+  namespace: my-ns
+  labels:
+    app: game
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: game
+  template:
+    metadata:
+      labels:
+        app: game
+    spec: 
+      containers:
+        - name: cont1
+          image: shammu101/game
+          ports:
+            - containerPort: 80
+          env:
+           - name: URL
+             valueFrom:
+              configMapKeyRef:
+               name: config1
+               key: URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc1
+  namespace: my-ns
+  labels:
+    app-game
+spec:
+  type: NodePort
+  selector:
+    app: game
+  ports:
+    - port: 80
+      targetPort: 80
+      

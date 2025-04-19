@@ -1,26 +1,57 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: dep1
+  name: dep-task1
   namespace: my-ns
   labels:
-    app: cycle
+    app: dm
 spec:
-  containers:
-    - name: cont1
-      image: shammu101/cycle
-      ports:
-        - containerPort: 80
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dm
+  template:
+    metadata: 
+      labels:
+        app: dm
+    spec:
+      containers:
+        - name: nginx
+          image: shammu101/dm
+          ports:
+            - containerPort: 80
+          env:
+            - name: URL
+              valueFrom:
+                configMapKeyRef:
+                  name: config1
+                  key: URL
+            - name: NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: config1
+                  key: NAME
+            - name: PLACE
+              valueFrom:
+                configMapKeyRef:
+                  name: config1
+                  key: PLACE
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: config1
+                  key: PORT
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc1
+  name: svc-task1
   namespace: my-ns
 spec:
   type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
   selector:
-    app: cycle
-  ports: 
-    - port: 80
-      targetPort: 80
+    app: dm

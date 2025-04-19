@@ -4,11 +4,11 @@ metadata:
   name: dep1
   namespace: my-ns
   labels:
-    app: dm
+    app: cycle
 spec:
   containers:
     - name: cont1
-      image: shammu101/dm
+      image: shammu101/cycle
       ports:
         - containerPort: 80
 ---
@@ -20,7 +20,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: dm
+    app: cycle
   ports: 
     - port: 80
       targetPort: 80

@@ -4,20 +4,20 @@ metadata:
   name: dep-task1
   namespace: my-ns
   labels:
-    app: dm
+    app: cycle
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: dm
+      app: cycle
   template:
     metadata: 
       labels:
-        app: dm
+        app: cycle
     spec:
       containers:
         - name: nginx
-          image: shammu101/dm
+          image: shammu101/cycle
           ports:
             - containerPort: 80
           env:
@@ -54,4 +54,4 @@ spec:
   - port: 80
     targetPort: 80
   selector:
-    app: dm
+    app: cycle
